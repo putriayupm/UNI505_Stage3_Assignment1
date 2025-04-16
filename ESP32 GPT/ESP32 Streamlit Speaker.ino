@@ -33,8 +33,7 @@ void playAudio(const char* path) {
   // Start new playback
   file = new AudioFileSourceSPIFFS(path);
   mp3 = new AudioGeneratorMP3();
-  
-  // Configure for low memory usage
+
   mp3->begin(file, out);
   Serial.printf("Playing: %s\n", path);
 }
@@ -44,7 +43,7 @@ void handleUpload(AsyncWebServerRequest *request, String filename, size_t index,
   
   if (!index) {
     Serial.println("Upload started");
-    SPIFFS.remove("/audio.mp3"); // Delete old file if exists
+    SPIFFS.remove("/audio.mp3"); 
     uploadFile = SPIFFS.open("/audio.mp3", "w");
     if (!uploadFile) {
       Serial.println("Failed to create file");
@@ -69,7 +68,6 @@ void handleUpload(AsyncWebServerRequest *request, String filename, size_t index,
       Serial.println("Upload complete");
       request->send(200, "text/plain", "Upload complete");
       
-      // Give some time for the response to be sent
       delay(100);
       playAudio("/audio.mp3");
     }
@@ -98,8 +96,8 @@ void setup() {
   // Audio configuration for MAX98357A
   out = new AudioOutputI2S();
   out->SetPinout(I2S_BCLK, I2S_LRC, I2S_DOUT);
-  out->SetOutputModeMono(true);  // Mono output
-  out->SetGain(0.5);  // Reduce gain to prevent distortion
+  out->SetOutputModeMono(true);  
+  out->SetGain(0.5); 
 
   // Configure server
   server.on("/play_audio", HTTP_POST, 
@@ -124,10 +122,9 @@ void loop() {
       mp3 = nullptr;
       file = nullptr;
       Serial.println("Playback finished");
-      
-      // Optional: Delete the file after playback
+    
       SPIFFS.remove("/audio.mp3");
     }
   }
-  delay(1); // Small delay to prevent watchdog timer
+  delay(1); 
 }
