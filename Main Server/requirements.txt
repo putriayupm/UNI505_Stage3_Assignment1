@@ -1,0 +1,11 @@
+streamlit
+Flask
+openai
+gtts
+requests
+python-dotenv
+pymongo
+gridfs
+ultralytics
+numpy
+opencv-python
