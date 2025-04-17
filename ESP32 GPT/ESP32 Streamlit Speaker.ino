@@ -6,7 +6,7 @@
 #include "AudioOutputI2S.h"
 
 const char* ssid = "Eugenia";
-const char* password = "ordinary";
+const char* password = "";
 
 // I2S Configuration for MAX98357A
 #define I2S_DOUT 25
